@@ -1,5 +1,8 @@
 // selecionando elementos do formulário
+const form = document.querySelector("form");
 const amountInput = document.querySelector("#amount");
+const expenseInput = document.querySelector("#expense");
+const categoryInput = document.querySelector("#category");
 
 // verificando quando o conteudo do input mudou
 amountInput.addEventListener("change", () => {
@@ -28,3 +31,20 @@ function formatCurrencyBRL(value) {
   // retorna o valor formatado
   return value;
 }
+
+// form.onsubmit;
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const newExpense = {
+    id: new Date().getTime(),
+    expense: expenseInput.value,
+    category_id: categoryInput.value,
+    category_name: categoryInput.options[categoryInput.selectedIndex].text,
+    amount: amountInput.value,
+    created_at: new Date(),
+  };
+
+  console.log(newExpense);
+});

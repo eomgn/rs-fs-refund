@@ -7,6 +7,7 @@ const categoryInput = document.querySelector("#category");
 // selecionando elementos da lista
 const expenseList = document.querySelector("ul");
 const expensesQuantity = document.querySelector("aside header p span");
+const expenseTotal = document.querySelector("aside header h2");
 
 // verificando quando o conteudo do input mudou
 amountInput.addEventListener("change", () => {
@@ -110,6 +111,59 @@ function expenseAdd(newExpense) {
     updateTotals();
   } catch (error) {
     alert("Não foi possível atualizar a lista de despesas.");
+    console.log(error);
+  }
+}
+
+// atualizar os totais
+function updateTotals() {
+  try {
+    // recuperar todos os itens (li) da lista (ul)
+    const items = expenseList.children;
+
+    expensesQuantity.textContent = `
+      ${items.length} ${items.length > 1 ? "despesas" : "despesa"}`;
+
+    // variavel para incrementar o total
+    let total = 0;
+
+    // percorre cada item (li) da lista (ul)
+    for (let item = 0; item < items.length; item++) {
+      const itemAmount = items[item].querySelector(".expense-amount");
+
+      // removendo caracteres NÃO numericos e substitui a virgula pelo ponto
+      let value = itemAmount.textContent
+        .replace(/[^\d,]/g, "")
+        .replace(",", ".");
+
+      // converte para float
+      value = parseFloat(value);
+
+      // verifica se de fato é um numero
+      if (isNaN(value)) {
+        alert(
+          "Não foi possivel calcular o total. O valor não parecer ser um número."
+        );
+      }
+
+      // incrementa o valor
+      total += Number(value);
+    }
+
+    // cria a span para adicioanr o R$ formatando
+    const symbolBRL = document.createElement("small");
+    symbolBRL.textContent = "R$";
+
+    // formata o valor e remove o R$ que sera exibido pela small com um estilo customizado
+    total = formatCurrencyBRL(total).toUpperCase().replace("R$", "");
+
+    // limpa o conteudo do elemento
+    expenseTotal.innerHTML = "";
+
+    // adiciona e o valor total formatado
+    expenseTotal.append(symbolBRL, total);
+  } catch (error) {
+    alert("Não foi possível atualizar os totais.");
     console.log(error);
   }
 }

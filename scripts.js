@@ -167,3 +167,18 @@ function updateTotals() {
     console.log(error);
   }
 }
+
+// evento que captura o clique nos itens da lista
+expenseList.addEventListener("click", (event) => {
+  // verifica se o elemento clicado é o icone de remove
+  if (event.target.classList.contains("remove-icon")) {
+    // obter a li pai do elemento clicado
+    const item = event.target.closest(".expense");
+
+    // remove o item da lista
+    item.remove();
+  }
+
+  // atualiza os totais
+  updateTotals();
+});

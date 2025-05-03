@@ -35,7 +35,7 @@ function formatCurrencyBRL(value) {
 
 // captura o evento de submit do formulario para obter os valores
 form.addEventListener("submit", (event) => {
-  // previre o comportamento padrão de recarregar a página
+  // previvir o comportamento padrão de recarregar a página
   event.preventDefault();
 
   // cria um objeto com os detalhes da nova despesa
@@ -109,6 +109,9 @@ function expenseAdd(newExpense) {
 
     // atualiza os totais
     updateTotals();
+
+    // limpar o formulário pra adicionar um novo item
+    formClear();
   } catch (error) {
     alert("Não foi possível atualizar a lista de despesas.");
     console.log(error);
@@ -182,3 +185,13 @@ expenseList.addEventListener("click", (event) => {
   // atualiza os totais
   updateTotals();
 });
+
+function formClear() {
+  //limpar inputs
+  expenseInput.value = "";
+  categoryInput.value = "";
+  amountInput.value = "";
+
+  // coloca o foco no expanseInput
+  expenseInput.focus();
+}
